@@ -1,6 +1,6 @@
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr
-    provider=aws.central
+  provider   = aws.central
 
   tags = {
     Name = local.vpc_name
@@ -8,8 +8,8 @@ resource "aws_vpc" "vpc" {
 }
 
 resource "aws_internet_gateway" "internet_gateway" {
-  vpc_id = aws_vpc.vpc.id
-  provider=aws.central
+  vpc_id   = aws_vpc.vpc.id
+  provider = aws.central
 
   tags = {
     Name = local.internet_gateway_name
@@ -22,7 +22,7 @@ resource "aws_subnet" "public_subnet" {
   cidr_block              = var.public_subnet_cidr[count.index]
   map_public_ip_on_launch = true
   availability_zone       = var.az_names[count.index]
-    provider=aws.central
+  provider                = aws.central
 
   tags = {
     Name = join("-", [local.public_subnet_name, var.az_names[count.index]])
@@ -34,7 +34,7 @@ resource "aws_subnet" "private_subnet" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.private_subnet_cidr[count.index]
   availability_zone = var.az_names[count.index]
-    provider=aws.central
+  provider          = aws.central
 
   tags = {
     Name = join("-", [local.private_subnet_name, var.az_names[count.index]])
@@ -42,8 +42,8 @@ resource "aws_subnet" "private_subnet" {
 }
 
 resource "aws_route_table" "public_route_table" {
-  vpc_id = aws_vpc.vpc.id
-    provider=aws.central
+  vpc_id   = aws_vpc.vpc.id
+  provider = aws.central
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -56,7 +56,7 @@ resource "aws_route_table" "public_route_table" {
 }
 
 resource "aws_eip" "elastic_ip" {
-  provider=aws.central
+  provider = aws.central
   tags = {
     Name = local.elastic_ip_name
   }
@@ -66,7 +66,7 @@ resource "aws_nat_gateway" "nat_gateway" {
   allocation_id     = aws_eip.elastic_ip.id
   connectivity_type = "public"
   subnet_id         = aws_subnet.public_subnet[0].id
-    provider=aws.central
+  provider          = aws.central
 
   tags = {
     Name = local.nat_gateway_name
@@ -76,8 +76,8 @@ resource "aws_nat_gateway" "nat_gateway" {
 }
 
 resource "aws_route_table" "private_route_table" {
-  vpc_id = aws_vpc.vpc.id
-    provider=aws.central
+  vpc_id   = aws_vpc.vpc.id
+  provider = aws.central
 
   route {
     cidr_block     = "0.0.0.0/0"
@@ -107,7 +107,7 @@ resource "aws_security_group" "alb_security_group" {
   name        = local.alb_security_group_name
   description = "ALB Security Group"
   vpc_id      = aws_vpc.vpc.id
-    provider=aws.central
+  provider    = aws.central
 
   ingress {
     description = "HTTP from Internet"
@@ -133,7 +133,7 @@ resource "aws_security_group" "asg_security_group" {
   name        = local.asg_security_group_name
   description = "ASG Security Group"
   vpc_id      = aws_vpc.vpc.id
-    provider=aws.central
+  provider    = aws.central
 
   ingress {
     description     = "HTTP from ALB"
@@ -161,7 +161,7 @@ resource "aws_launch_template" "launch_template" {
   name          = local.launch_template_name
   image_id      = var.ami
   instance_type = var.instance_type
-    provider=aws.central
+  provider      = aws.central
 
   network_interfaces {
     device_index    = 0
@@ -184,7 +184,7 @@ resource "aws_autoscaling_group" "auto_scaling_group" {
   min_size            = var.min_size
   vpc_zone_identifier = [for i in aws_subnet.private_subnet[*] : i.id]
   target_group_arns   = [aws_lb_target_group.target_group.arn]
-    provider=aws.central
+  provider            = aws.central
 
   launch_template {
     id      = aws_launch_template.launch_template.id
@@ -200,7 +200,7 @@ resource "aws_lb" "alb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_security_group.id]
   subnets            = [for i in aws_subnet.public_subnet : i.id]
-    provider=aws.central
+  provider           = aws.central
 }
 
 resource "aws_lb_target_group" "target_group" {
@@ -208,7 +208,7 @@ resource "aws_lb_target_group" "target_group" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.vpc.id
-    provider=aws.central
+  provider = aws.central
 
   health_check {
     path    = "/"
@@ -220,7 +220,7 @@ resource "aws_lb_listener" "alb_listener" {
   load_balancer_arn = aws_lb.alb.arn
   port              = "80"
   protocol          = "HTTP"
-  provider=aws.central
+  provider          = aws.central
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.arn

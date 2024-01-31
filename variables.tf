@@ -54,7 +54,7 @@ variable "ami" {
 variable "aws_region" {
   description = "AWS region name"
   type        = string
-  default     = "us-east-1"
+  default     = "ca-central-1"
 }
 
 variable "server_port" {
