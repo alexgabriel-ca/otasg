@@ -10,6 +10,7 @@ terraform {
 }
 
 provider "aws" {
+  alias  = "central"
   region = "ca-central-1"
 }
 
