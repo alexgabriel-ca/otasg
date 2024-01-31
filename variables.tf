@@ -2,20 +2,20 @@
 
 # Local Values
 locals {
-  vpc_name                 = "wk21-vnet"
-  internet_gateway_name    = "wk21-internet-gateway"
-  public_subnet_name       = "wk21-public-subnet"
-  private_subnet_name      = "wk21-private-subnet"
-  public_route_table_name  = "wk21-public-route-table"
-  private_route_table_name = "wk21-private-route-table"
-  elastic_ip_name          = "wk21-nat-elastic-ip"
-  nat_gateway_name         = "wk21-nat-gateway"
-  alb_security_group_name  = "wk21-alb-security-group"
-  asg_security_group_name  = "wk21-asg-security-group"
-  launch_template_name     = "wk21-launch-template"
-  launch_template_ec2_name = "wk21-asg-ec2"
-  alb_name                 = "wk21-external-alb"
-  target_group_name        = "wk21-alb-target-group"
+  vpc_name                 = "ot-asg-vpc"
+  internet_gateway_name    = "ot-asg-internet-gateway"
+  public_subnet_name       = "ot-asg-public-subnet"
+  private_subnet_name      = "ot-asg-private-subnet"
+  public_route_table_name  = "ot-asg-public-route-table"
+  private_route_table_name = "ot-asg-private-route-table"
+  elastic_ip_name          = "ot-asg-nat-elastic-ip"
+  nat_gateway_name         = "ot-asg-nat-gateway"
+  alb_security_group_name  = "ot-asg-alb-security-group"
+  asg_security_group_name  = "ot-asg-asg-security-group"
+  launch_template_name     = "ot-asg-launch-template"
+  launch_template_ec2_name = "ot-asg-asg-ec2"
+  alb_name                 = "ot-asg-external-alb"
+  target_group_name        = "ot-asg-alb-target-group"
 }
 
 # VPC Variables
