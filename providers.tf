@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
-      #version = "~> 4.16"
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
   }
 
@@ -10,8 +10,8 @@ terraform {
 }
 
 provider "aws" {
-  alias  = "central"
   region = "ca-central-1"
+  alias  = "central"
 }
 
 data "aws_ami" "app_ami" {
