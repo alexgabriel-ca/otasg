@@ -10,8 +10,8 @@ terraform {
 }
 
 provider "aws" {
-  region = "ca-central-1"
-  alias  = "central"
+  region = "us-east-1"
+  alias  = "east"
 }
 
 data "aws_ami" "app_ami" {

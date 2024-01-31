@@ -28,7 +28,7 @@ variable "vpc_cidr" {
 
 variable "az_names" {
   type    = list(string)
-  default = ["ca-central-1a", "ca-central-1b"]
+  default = ["us-east-1a", "us-east-1b"]
 }
 
 variable "public_subnet_cidr" {
@@ -48,13 +48,13 @@ variable "private_subnet_cidr" {
 variable "ami" {
   description = "ami id"
   type        = string
-  default     = "ami-0c00c714c7f84b49d"
+  default     = "ami-006dcf34c09e50022"
 }
 
 variable "aws_region" {
   description = "AWS region name"
   type        = string
-  default     = "ca-central-1"
+  default     = "us-east-1"
 }
 
 variable "server_port" {
